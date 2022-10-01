@@ -62,7 +62,6 @@ public class SendMail {
 		}
 	
 	}
-
 }
 /*	
  *	Exemplo para Google: 
