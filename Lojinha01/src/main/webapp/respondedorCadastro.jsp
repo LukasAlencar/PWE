@@ -6,19 +6,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <% 	
-	String psw = "uqzbfvedtueejaju";
-
 
 	DBQuery db = new DBQuery();
 			
 	String email = request.getParameter("email");
 	email = (email == null)?"":email;
-	
-	String senha = request.getParameter("senha");
-	senha = (senha == null)?"":senha;
-	
-	String senhaConf = request.getParameter("senhaConf");
-	senhaConf = (senhaConf == null)?"":senhaConf;
 	
 	String nome = request.getParameter("nome");
 	nome = (nome == null)?"":nome;
@@ -49,19 +41,17 @@
 	
 	int nivelU = Integer.parseInt(nivel);
 	
-	senha = "teste23";
 	String where = "email = '" + email + "'"; 
 	
-	Usuario usuario = new Usuario( 0, email, senha, nivelU, nome, cpf, endereco, bairro, cidade, uf, cep, numero, "", "0");
+	Usuario usuario = new Usuario( 0, email, nivelU, nome, cpf, endereco, bairro, cidade, uf, cep, numero, "", "N");
 	usuario.save();
+	
+	String corpoEmail = "Sua senha é: " + usuario.getSenha();
 		
 	
 	ResultSet rs = usuario.select(where);
 	if(rs.next()){
-		out.print("Usuario criado!");
-		SendMail envio = new SendMail("smtp.mail.smtp.host", "587", "alencarkauan12@gmail.com", psw, "TLS");
-		envio.send("alencarkauan12@gmail.com", email, "Senha:", senha);
-		
+		usuario.enviarEmailComSenha("lucas.kauan12@yahoo.com", email, corpoEmail, corpoEmail);
 	}else{
 		out.print("Deu erro po");
 	}

@@ -22,7 +22,7 @@ public class Usuario {
 	private String 	foto;
 	private String 	ativo;
 	
-	private String tableName	= "lojinha.usuarios"; 
+	private String tableName	= "gu3025829.usuarios"; 
 	private String fieldsName	= "idUsuario, email, senha, idNivelUsuario, nome, cpf, endereco, bairro, cidade, uf, cep, telefone, foto, ativo";  
 	private String fieldKey		= "idUsuario";
 	
@@ -32,7 +32,7 @@ public class Usuario {
 		
 	}
 	
-	public Usuario( int idUsuario, String email, String senha, int idNivelUsuario, String nome, String cpf, String endereco, String bairro, String cidade, String uf, String cep, String telefone, String foto, String ativo) {
+	public Usuario( int idUsuario, String email, int idNivelUsuario, String nome, String cpf, String endereco, String bairro, String cidade, String uf, String cep, String telefone, String foto, String ativo) {
 		this.setIdUsuario(idUsuario);
 		this.setEmail(email);
 		this.setSenha(senha);
@@ -154,16 +154,44 @@ public class Usuario {
 	
 	public void enviarEmailComSenha( String mailFrom, String mailTo, String mailSubject, String mailBody ){
 		
-		String smtpHost = "smtp.gmail.com"; 
+		String smtpHost = "smtp.mail.yahoo.com"; 
 		String smtpPort = "587"; 
-		String username = "usuario@gmail.com";
-		String password = "senha123456";
-		String auth     = "tls";  
+		String username = "lucas.kauan12@yahoo.com";
+		String password = "obppoehddsknsyfj";
+		String auth     = "TLS";  
 		
 		SendMail sendMail =  new SendMail( smtpHost,  smtpPort,  username,  password,  auth  );		
 		sendMail.send( mailFrom, mailTo, mailSubject, mailBody );
 		
 	}
+	
+	
+	static String getRandomString() 
+    { 
+		int i = 10;
+        String theAlphaNumericS;
+        StringBuilder builder;
+        
+        theAlphaNumericS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                    + "0123456789"; 
+
+        //create the StringBuffer
+        builder = new StringBuilder(i); 
+
+        for (int m = 0; m < i; m++) { 
+
+            // generate numeric
+            int myindex 
+                = (int)(theAlphaNumericS.length() 
+                        * Math.random()); 
+
+            // add the characters
+            builder.append(theAlphaNumericS 
+                        .charAt(myindex)); 
+        } 
+
+        return builder.toString(); 
+    }
 	
 	public String newPassword() {
 		
@@ -260,7 +288,7 @@ public class Usuario {
 	}
 
 	public void setSenha(String senha) {
-		this.senha = senha;
+		this.senha = getRandomString();
 	}
 
 	public int getIdNivelUsuario() {

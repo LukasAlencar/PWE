@@ -22,8 +22,8 @@ public class SendMail {
 		this.properties.put("mail.smtp.port", smtpPort);
 		
 		if (auth.toLowerCase().equals("tls")){
-			this.properties.put("mail.smtp.starttls.enable", "true");
 			this.properties.put("mail.smtp.sll.protocols", "TLSv1.2");
+			this.properties.put("mail.smtp.starttls.enable", "true");
 			this.properties.put("mail.smtp.auth", "true");
 		}
 
@@ -56,7 +56,7 @@ public class SendMail {
 			message.setSubject( mailSubject	);
 			message.setText(    mailBody	);
 			Transport.send(     message		);
-			System.out.println("Email Enviado!");
+			System.out.println("\nEmail Enviado!");
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
 		}
