@@ -64,7 +64,6 @@ public class SendMail {
 	}
 
 }
-
 /*	
  *	Exemplo para Google: 
  *		Host:	smtp.gmail.com 
