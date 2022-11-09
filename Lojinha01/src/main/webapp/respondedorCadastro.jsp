@@ -71,9 +71,9 @@
 		
 	
 	ResultSet rs = usuario.select(where);	
-// 	if(rs.next()){
-// 		usuario.enviarEmailComSenha("lucas.kauan12@yahoo.com", email, corpoEmail, corpoEmail);
-// 	}else{
-// 		out.print("Deu erro po");
-// 	}
+	if(rs.next()){
+		usuario.enviarEmailComSenha("alencarkauan12@gmail.com", email, corpoEmail, corpoEmail);
+	}else{
+		out.print("Deu erro po");
+	}
 %>

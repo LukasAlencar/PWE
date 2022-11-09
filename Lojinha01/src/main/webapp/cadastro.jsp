@@ -103,15 +103,20 @@
   		
   		
   		$("#btnEnviar").click(function() {
-			var frmData = $("#formCadastro").serialize();
-			$.ajax({
-				url: "respondedorCadastro.jsp",
-				data: frmData,
-				type: "POST",
-				success: function( data ) {
-					$('#popup').modal("show");
-				}
-			});
+  			if($('#check1').prop('checked') == true){
+				var frmData = $("#formCadastro").serialize();
+				$.ajax({
+					url: "respondedorCadastro.jsp",
+					data: frmData,
+					type: "POST",
+					success: function( data ) {
+						$('#popup').modal("show");
+					}
+				});
+  			}else{
+  				alert("Preencha os campos obrigatórios");
+  				$('#check1').addClass('required');
+  			}
 		});
   	});
   
@@ -235,7 +240,7 @@
 				<div class="col-4">
 					<div class="">
 						<div class="form-check mt-4">
-						  <input class="form-check-input" type="checkbox" id="check1" name="option1" value="something">
+						  <input class="form-check-input required" type="checkbox" id="check1" name="option1" value="something" required>
 						  <label class="form-check-label">Concorda com nossos termos?</label>
 						</div>
 						<div class="form-check">

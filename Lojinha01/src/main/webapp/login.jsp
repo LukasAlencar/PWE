@@ -18,42 +18,88 @@
 			var frmData = $("#frmLogin").serialize();
 			$("#msg").html("Enviou:" + frmData);
 			$.ajax({
-				url: "cadastroBO.jsp",
+				url: "loginServlet",
 				data: frmData,
 				type: "POST",
 				success: function( data ) {
-					$("#msg").html( $("#msg").html()+"<br>Retornou:" + data);
+					if(data == 1){
+						window.open("https://lukasalencar.github.io/ProjetoArt");
+						console.log("Login realizado com sucesso");
+					}else{
+						$('#popup').modal("show");
+					}
 				}
 			});
 		});
 	});
   
   </script>
+  
+  <style type="text/css">
+  	.section{
+  		border-radius: 20px;
+  		box-shadow: 0px 0px 2px black;
+  		padding: 20px !important;
+  	
+  	}
+  
+  
+  </style>
 </head>
 <body>
 
-<div class="container">
-  <h2>Autenticação</h2>
-  <form  id="frmLogin">
-    <div class="form-group">
-      <label for="email">Email:</label>
-      <input type="email" class="form-control" id="email" placeholder="Digite seu  email" name="email">
-    </div>
-    <div class="form-group">
-      <label for="pwd">Password:</label>
-      <input type="password" class="form-control" id="senha" placeholder="Digite sua senha:" name="senha">
-    </div>
-    <div class="form-group form-check">
-      <label class="form-check-label">
-        <input class="form-check-input" type="checkbox" name="remember"> Remember me
-      </label>
-    </div>
-    <button type="button"  id="btnEnviar"class="btn btn-primary">Enviar</button>
-    
-  </form>
-  <div id="msg"></div>
-  
-</div>
+	<div class="container mt-5 d-flex justify-content-center">
+		<div class="form-group row col-12 section">
+			<div class="modal fade" id="popup" tabindex="-1" role="dialog"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Não foi possível realizar o Login</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">Usuario não encontrado!</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Fechar</button>
+							<a href="cadastro.jsp"><button type="button"
+									class="btn btn-primary">Cadastre-se</button> </a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="container">
+				<h2>Autenticação</h2>
+				<form id="frmLogin">
+					<div class="form-group row col-6">
+						<label for="email">Email:</label> <input type="email"
+							class="form-control" id="email" placeholder="Digite seu  email"
+							name="email">
+					</div>
+					<div class="form-group row col-6">
+						<label for="pwd">Password:</label> <input type="password"
+							class="form-control" id="senha" placeholder="Digite sua senha:"
+							name="senha">
+					</div>
+					<div class="form-group form-check">
+						<label class="form-check-label"> <input
+							class="form-check-input" type="checkbox" name="remember">
+							Remember me
+						</label>
+					</div>
+					<button type="button" id="btnEnviar" class="btn btn-primary">Enviar</button>
+					<p class="mt-2 ">Não possui cadastro? <a href="cadastro.jsp">Cadastre-se</a></p>
+				</form>
+				<div id="msg"></div>
+
+			</div>
+
+		</div>
+	</div>
 
 </body>
 </html>

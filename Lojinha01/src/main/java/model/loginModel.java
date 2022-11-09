@@ -1,7 +1,6 @@
 package model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import database.DBQuery;
 
 public class loginModel {
@@ -12,14 +11,13 @@ public class loginModel {
 		
 		ResultSet rs = db.query("SELECT * FROM usuarios WHERE email = '"+ email +"'");
 		
-		String resposta = "User Not Found!";
-
+		String resposta = "User not Found!";
 		try {
 			while(rs.next()){
 				if(!senha.equals(rs.getString(3))){
-					resposta = "Wrong Password!";
+					resposta = "PassWord Incorrect";
 				}else{
-					resposta = "Login Successful!";
+					resposta = "Login Sucessful";
 				}
 			}
 		} catch (SQLException e){

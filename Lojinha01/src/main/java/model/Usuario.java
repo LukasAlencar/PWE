@@ -154,10 +154,10 @@ public class Usuario {
 	
 	public void enviarEmailComSenha( String mailFrom, String mailTo, String mailSubject, String mailBody ){
 		
-		String smtpHost = "smtp.mail.yahoo.com"; 
+		String smtpHost = "smtp.gmail.com"; 
 		String smtpPort = "587"; 
-		String username = "lucas.kauan12@yahoo.com";
-		String password = "obppoehddsknsyfj";
+		String username = "alencarkauan12@gmail.com";
+		String password = "uwisxcdpltmurlph";
 		String auth     = "TLS";  
 		
 		SendMail sendMail =  new SendMail( smtpHost,  smtpPort,  username,  password,  auth  );		
@@ -220,11 +220,11 @@ public class Usuario {
 		return this.getSenha(); 
 	}
 
-	public boolean checkLogin() {
+	public boolean checkLogin(String psw) {
 		
 		int id = 0;
 		try {
-			ResultSet resultSet = this.select(" email='"+ this.getEmail()+ "' AND senha = '"+this.getSenha()+"'");
+			ResultSet resultSet = this.select(" email='"+ this.getEmail()+ "' AND senha = '"+psw+"'");
 			while (resultSet.next()) {
 				System.out.println( "\n"+resultSet.getString("nome"));
 				id =  resultSet.getInt("idUsuario");
