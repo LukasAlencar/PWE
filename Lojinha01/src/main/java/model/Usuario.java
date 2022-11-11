@@ -157,7 +157,7 @@ public class Usuario {
 		String smtpHost = "smtp.gmail.com"; 
 		String smtpPort = "587"; 
 		String username = "alencarkauan12@gmail.com";
-		String password = "uwisxcdpltmurlph";
+		String password = "";
 		String auth     = "TLS";  
 		
 		SendMail sendMail =  new SendMail( smtpHost,  smtpPort,  username,  password,  auth  );		
