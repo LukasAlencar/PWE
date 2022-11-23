@@ -54,7 +54,7 @@
 
 	filename = filename.replaceAll(":", "-");
 
-	String caminho = "/Users/hacke/git/PWE/Lojinha01/src/main/webapp/uploadBase64/res/"+filename ;
+	String caminho = "yourRoute"+filename ;
 	String strFoto = request.getParameter("foto");
 	byte[] bytes = strFoto.getBytes();
 	Files.write( Paths.get(caminho), bytes);
@@ -64,7 +64,7 @@
 
 	
 	//Criar user
-	Usuario usuario = new Usuario( 0, email, nivelU, nome, cpf, endereco, bairro, cidade, uf, cep, numero, caminho+filename, "N");
+	Usuario usuario = new Usuario( 0, email, nivelU, nome, cpf, endereco, bairro, cidade, uf, cep, numero, caminho, "N", 0);
 	usuario.save();
 	
 	String corpoEmail = "Sua senha é: " + usuario.getSenha();
@@ -72,7 +72,7 @@
 	
 	ResultSet rs = usuario.select(where);	
 	if(rs.next()){
-		usuario.enviarEmailComSenha("alencarkauan12@gmail.com", email, corpoEmail, corpoEmail);
+		usuario.enviarEmailComSenha("yourEmail", email, corpoEmail, corpoEmail);
 	}else{
 		out.print("Deu erro po");
 	}

@@ -81,9 +81,10 @@
   	$(document).ready(function(){
   		
   		$("#divImg").click(function() {
-  			$("#inputFile").trigger('click');
-  		});
-  			
+			$("#inputFile").trigger('click');
+		});
+  		
+  		
   		$("#inputFile").change(function (event) {
   			$('#pImg').css('display', 'none');
   			var file = event.target.files[0];
@@ -118,6 +119,8 @@
   				$('#check1').addClass('required');
   			}
 		});
+  		
+  		
   	});
   
   

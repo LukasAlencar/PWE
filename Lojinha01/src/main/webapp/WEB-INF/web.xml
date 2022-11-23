@@ -36,4 +36,22 @@
         <servlet-name>SignIn</servlet-name>
         <url-pattern>/SignIn</url-pattern>
     </servlet-mapping>
+    
+    <servlet> 
+        <servlet-name>Profile</servlet-name>
+        <jsp-file>/profile.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Profile</servlet-name>
+        <url-pattern>/myProfile</url-pattern>
+    </servlet-mapping>
+    
+    <servlet> 
+        <servlet-name>Ticket</servlet-name>
+        <jsp-file>/meuIngresso.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Ticket</servlet-name>
+        <url-pattern>/myTickets</url-pattern>
+    </servlet-mapping>
 </web-app>

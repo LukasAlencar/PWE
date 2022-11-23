@@ -8,6 +8,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import multitools.Login;
+
 
 
 @WebServlet("/loginServlet")
@@ -40,13 +44,19 @@ public class loginServlet extends HttpServlet {
 		int result;
 		PrintWriter out = response.getWriter();
 		
-		
+		Login usu = new Login(email, senha);
 		loginModel login = new loginModel();
 		String res = login.login(email, senha);
+		int id = usu.getIdUsuario();
 		if(res == "Login Sucessful"){
 			result = 1;
+			HttpSession session = request.getSession();
+			session.setAttribute("senha", senha);
+			session.setAttribute("id", id);
 		}else {
 			result = 0;
+			HttpSession session = request.getSession();
+			session.setAttribute("senha", null);
 		}
 		out.print(result);
 		out.flush();

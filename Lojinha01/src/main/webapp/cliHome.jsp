@@ -1,5 +1,34 @@
+   	<%
+   		
+		String senha = (String) session.getAttribute("senha");
+		if(senha == null || senha.isEmpty()){
+			response.sendRedirect("./login");
+		}
+		
+		int id = (int) session.getAttribute("id");
+		Profile profile = new Profile(id);
+		
+		String caminho = profile.getCaminho();
+		String conteudo = "";
+	    
+		Path local = Paths.get(caminho);
+		try{
+			byte [] conteudoBytes = Files.readAllBytes(local);
+			conteudo = new String(conteudoBytes);
+		}
+		catch(Exception e){
+	    }
+	%>
+
+
+<%@page import="java.nio.file.Paths"%>
+<%@page import="java.nio.file.Path"%>
+<%@page import="multitools.Profile"%>
+<%@page import="java.nio.file.Files"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    
+ 
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,8 +44,130 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="static/js/script.js" defer></script>
 <title>Zoo</title>
+<style type="text/css">
+	#profileImg{
+		width: 40px;
+		border-radius: 20px;
+		
+	}
+	#profileImg:hover{
+		cursor: pointer;
+	}
+	.obs{
+		margin-top: 20px;
+		font-size: 12px;
+		
+	}
+</style>
+
+<script type="text/javascript">
+
+function buyConfirm(){
+	setTimeout(function(){
+		$('#popupBuySuccessful').modal("show");
+	},2000);
+}
+
+$(document).ready(function() {
+	
+	$("#btnBuy1").click(function(){
+		$('#ingressoInput').attr('value', '1');
+		$('#popupBuy').modal("show");
+	})
+	$("#btnBuy2").click(function(){
+		$('#ingressoInput').attr('value', '2');
+		$('#popupBuy').modal("show");
+	})
+	$("#btnBuy3").click(function(){
+		$('#ingressoInput').attr('value', '3');
+		$('#popupBuy').modal("show");
+	})
+	
+	$("#btBuyConfirm").click(function() {
+		var frmData = $('#formIngresso').serialize();
+		$.ajax({
+			url : "respondedorIngresso.jsp",
+			data : frmData,
+			type : "POST",
+			success : function(data) {
+				if (data == 1) {
+					buyConfirm();
+				} else {
+					$('#popup').modal("show");
+				}
+			}
+		});
+	});
+});
+
+
+</script>
 </head>
 <body>
+
+	<div class="modal fade" id="popup" tabindex="-1" role="dialog"
+					aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Sua sessão foi encerrada!</h5>
+								<a href="./logout.jsp">
+									<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								</a>
+							</div>
+							<div class="modal-body">Usuario inativo</div>
+							<div class="modal-footer">
+								<a href="./logout.jsp"><button type="button"
+										class="btn btn-primary">Login</button> </a>
+							</div>
+						</div>
+					</div>
+		</div>
+		<div class="modal fade" id="popupBuySuccessful" tabindex="-1" role="dialog"
+					aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Reserva realizada com sucesso!</h5>
+								<a href="./logout.jsp">
+									<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								</a>
+							</div>
+							<div class="modal-body">Poderá ver mais detalhes sobre a reserva em: ...</div>
+							<div class="modal-footer">
+								<a href="./myTickets"><button type="button"
+										class="btn btn-primary">Ingressos</button> </a>
+							</div>
+						</div>
+					</div>
+		</div>
+		<div class="modal fade" id="popupBuy" tabindex="-1" role="dialog"
+					aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Confirmar reserva!</h5>
+								<a href="./logout.jsp">
+									<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								</a>
+							</div> 	
+							<div class="modal-body">Reserve com um clique!</div>
+							<div class="modal-footer">
+								<button data-dismiss="modal" id="btBuyConfirm" type="button"
+										class="btn btn-primary">Reserve!</button>
+							</div>
+						</div>
+					</div>
+		</div>
 	<header>
 		<div class="container" id="nav-container">
 			<nav class="navbar navbar-expand-lg fixed-top">
@@ -27,12 +178,19 @@
 					aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggle-icon"></span>
 				</button>
+				
 				<div class="collapse navbar-collapse justify-content-end" id="navbar-links">
+				 
 					<div id="nav-barT" class="navbar-nav">
 						<a class="nav-item nav-link" id="home-menu" href="#nav-container">Home</a>
 						<a class="nav-item nav-link" id="values-menu" href="#buy">Preços</a>
 						<a class="nav-item nav-link" id="about-menu" href="#WeAbout">Sobre nós</a>
 						<a class="nav-item nav-link" id="contact-menu" href="#WeAbout">Contatos</a>
+						<a class="nav-item nav-link" id="myTicket" href="./myTickets">Ingressos</a>
+						<a class="nav-item nav-link" id="contact-menu" href="./logout.jsp">Sair</a>
+						<a href="./myProfile" class="nav-item nav-link" ><img id="profileImg" alt="" src="<%=conteudo%>"></a>
+						
+
 					</div>
 				</div>
 			</nav>
@@ -53,7 +211,7 @@
 							<h2>
 								Está procurando ter um dia divertido?
 							</h2>
-							<p>Veio ao lugar certo, Compre seu igresso e se divirta!</p>
+							<p>Veio ao lugar certo, Reserve seu igresso e se divirta!</p>
 							<a href="#buy" class="main-btn">Ingressos</a>
 						</div>
 					</div>
@@ -63,7 +221,7 @@
 							<h2>
 								Está procurando ter um dia divertido?
 							</h2>
-							<p>Veio ao lugar certo, Compre seu igresso e se divirta!</p>
+							<p>Veio ao lugar certo, Reserve seu igresso e se divirta!</p>
 							<a href="#buy" class="main-btn">Ingressos</a>
 						</div>
 					</div>
@@ -73,7 +231,7 @@
 							<h2>
 								Está procurando ter um dia divertido?
 							</h2>
-							<p>Veio ao lugar certo, Compre seu igresso e se divirta!</p>
+							<p>Veio ao lugar certo, Reserve seu igresso e se divirta!</p>
 							<a href="#buy" class="main-btn">Ingressos</a>
 						</div>
 					</div>
@@ -93,42 +251,47 @@
 			
 	
 			<div class="form-group row col-12 d-flex justify-content-center mb-5">
-				<div id="h1Buy">Compre Seu ingresso!</div>
+				<div id="h1Buy">Reserve Seu ingresso!</div>
 			</div>
+			
+			<form id="formIngresso">
+				<input name="id" value="<%=id%>" hidden=true>
+				<input id="ingressoInput" name="ingresso" type="text" value="0" hidden="true">
+			</form>
 			
 			<div class="form-group row col-12">
 				
 				<div class="col-4 item">
 					<div>
-						<h1>
+						<h1 class="h1Planos">
 							Primeiro plano:
 						</h1>
 						<p>
-							<strong>Termos de Serviço!!!</strong> <br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamnt, sunt in culpa qui officia deserunt mollit anim id est laborum.
+							<strong>R$100,00</strong> <br>Com o nosso primeiro plano você poderá ter acesso ao nosso Zoológico Incrível com mais de 100 animais prontinhos para receber a sua atenção!<br><span class="obs">*Reservas têm a duração de uma semana para ser pagas</span>
 						</p>
-						<button type="button" id="btnEnviar" class="btn btn-primary mt-3 p-2 bd-highlight">Comprar</button>
+						<button type="button" id="btnBuy1" class="btn btn-success mt-3 p-2 bd-highlight">Reserve</button>
 					</div>
 				</div>
 				<div class="col-4 item">
 					<div>
-						<h1>
+						<h1 class="h1Planos">
 							Segundo plano:
 						</h1>
 						<p>
-							<strong>Termos de Serviço!!!</strong> <br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamnt, sunt in culpa qui officia deserunt mollit anim id est laborum.
+							<strong>R$150,00</strong> <br>Com o nosso segundo plano você poderá ter acesso ao Zoológico e ao nosso grande aquário com Peixes Exóticos, Tubarões, e até Mamíferos que amam água!!<br><span class="obs">*Reservas têm a duração de uma semana para ser pagas</span>
 						</p>
-						<button type="button" id="btnEnviar" class="btn btn-primary mt-3 p-2 bd-highlight">Comprar</button>
+						<button type="button" id="btnBuy2" class="btn btn-success mt-3 p-2 bd-highlight">Reserve</button>
 					</div>
 				</div>	
 				<div class="col-4 item">
 					<div>
-						<h1>
+						<h1 class="h1Planos">
 							Terceiro plano:
 						</h1>
 						<p>
-							<strong>Termos de Serviço!!!</strong> <br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamnt, sunt in culpa qui officia deserunt mollit anim id est laborum.
+							<strong>R$170,00</strong> <br>Com o nosso terceiro plano você poderá ter acesso ao Zoológico, Aquário e o temível DinoPark, com Dinossauros de colocar aquele medo!!<br><span class="obs">*Reservas têm a duração de uma semana para ser pagas</span>
 						</p>
-						<button type="button" id="btnEnviar" class="btn btn-primary mt-3 p-2 bd-highlight">Comprar</button>
+						<button type="button" id="btnBuy3" class="btn btn-success mt-3 p-2 bd-highlight">Reserve</button>
 					</div>
 				</div>
 			
@@ -153,26 +316,11 @@
 	  <div id="footerDiv" class="container pt-4">
 	    <!-- Section: Social media -->
 	    <section class="mb-4">
-	      <!-- Facebook -->
+	      <!-- Gmail -->
 	      <a
 	        class="btn btn-link btn-floating btn-lg text-dark m-1"
-	        href="#!"
-	        role="button"
-	        data-mdb-ripple-color="dark"
-	        ><i class="bi bi-facebook"></i></a>
-	
-	      <!-- Twitter -->
-	      <a
-	        class="btn btn-link btn-floating btn-lg text-dark m-1"
-	        href="#!"
-	        role="button"
-	        data-mdb-ripple-color="dark"
-	        ><i class="bi bi-twitter"></i></a>
-	
-	      <!-- Google -->
-	      <a
-	        class="btn btn-link btn-floating btn-lg text-dark m-1"
-	        href="#!"
+	        href="mailto:alencarkauan12@gmail.com"
+	        target="_blanck"
 	        role="button"
 	        data-mdb-ripple-color="dark"
 	        ><i class="bi bi-envelope-fill"></i></a>
@@ -180,7 +328,8 @@
 	      <!-- Instagram -->
 	      <a
 	        class="btn btn-link btn-floating btn-lg text-dark m-1"
-	        href="#!"
+	        href="https://instagram.com/lucass.kauan"
+	        target="_blanck"
 	        role="button"
 	        data-mdb-ripple-color="dark"
 	        ><i class="bi bi-instagram"></i></a>
@@ -188,14 +337,16 @@
 	      <!-- Linkedin -->
 	      <a
 	        class="btn btn-link btn-floating btn-lg text-dark m-1"
-	        href="#!"
+	        href="https://www.linkedin.com/in/lucas-alencar-b539241ba/"
+	        target="_blanck"
 	        role="button"
 	        data-mdb-ripple-color="dark"
 	        ><i class="bi bi-linkedin"></i></a>
 	      <!-- Github -->
 	      <a
 	        class="btn btn-link btn-floating btn-lg text-dark m-1"
-	        href="#!"
+	        href="https://github.com/LukasAlencar"
+	        target="_blanck"
 	        role="button"
 	        data-mdb-ripple-color="dark"
 	        ><i class="bi bi-github"></i></a>
@@ -208,7 +359,7 @@
 	  <!-- Copyright -->
 	  <div class="text-center text-dark p-3" style="background-color: rgba(0, 0, 0, 0.2);">
 	    © 2022 Copyright:
-	    <a class="text-dark" href="https://github.com/LukasAlencar">Lucas Alencar</a>
+	    <a class="text-dark" target="_blanck" href="https://github.com/LukasAlencar">Lucas Alencar</a>
 	  </div>
 	  <!-- Copyright -->
 </footer>

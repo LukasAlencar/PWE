@@ -15,7 +15,7 @@ filename += ".base64";
 
 filename = filename.replaceAll(":", "-");
 
-String caminho = "/Users/hacke/git/PWE/Lojinha01/src/main/webapp/uploadBase64/res/"+filename ;
+String caminho = "yourRoute"+filename ;
 String strFoto = request.getParameter("foto");
 byte[] bytes = strFoto.getBytes();
 Files.write( Paths.get(caminho), bytes);

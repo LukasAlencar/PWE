@@ -26,11 +26,11 @@ public class DBConnection {
 	}
 	
 	public DBConnection() {
-		this.setHost	("localhost");
-		this.setPort	("3306");
-		this.setSchema	("GU3025829");
-		this.setUser	("root");
-		this.setPassword("Masterkill1-");
+		this.setHost	("yourHost");
+		this.setPort	("yourPort");
+		this.setSchema	("yourSchema");
+		this.setUser	("yourRoot");
+		this.setPassword("yourPassword");
 		this.doConnection();
 	}
 	

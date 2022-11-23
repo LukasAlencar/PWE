@@ -8,13 +8,42 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css' type='text/css'>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script
 	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">
+
 	$(document).ready(function() {
+		var cont = 1;
+		
+		$(document).on('keyup', '#body', function(event) {   
+		    if (event.which == 20 && cont == 1) {
+		    	$('#capsWarning').css('display', 'block');
+		    	cont = 0;
+		    }else if (event.which == 20 && cont == 0) {
+		    	$('#capsWarning').css('display', 'none');
+		    	cont = 1;
+		    }
+		});
+
+		$(document).on('keydown', '#body', function(event) {   
+		    if (event.which == 16) {
+		    	$('#capsWarning').css('display', 'block');
+		    }
+		});
+		$(document).on('keyup', '#body', function(event) {   
+		    if (event.which == 16) {
+		    	$('#capsWarning').css('display', 'none');
+		    }
+		});
+		
+		
+		
+		
 		$("#btnEnviar").click(function() {
 			var frmData = $("#frmLogin").serialize();
 			$.ajax({
@@ -24,7 +53,6 @@
 				success : function(data) {
 					if (data == 1) {
 						window.location.href = "./Zoo";
-						console.log("Login realizado com sucesso");
 					} else {
 						$('#popup').modal("show");
 					}
@@ -69,9 +97,16 @@
 
 }
 
+.capsWarning{
+	display: none;
+	margin-left: 6px;
+    color: red;
+    transition: .5s;
+}
+
 </style>
 </head>
-<body>
+<body id="body">
 
 	<div class="container mt-5 d-flex justify-content-center">
 		<div class="form-group row col-12 section">
@@ -100,7 +135,7 @@
 				</div>
 
 				<div class="container">
-					<h2>Autenticação</h2>
+					<h2>Login Zoo</h2>
 					<form id="frmLogin">
 						<div class="form-group row col-12">
 							<label for="email">Email:</label> <input type="email"
@@ -108,7 +143,9 @@
 								name="email">
 						</div>
 						<div class="form-group row col-12">
-							<label for="pwd">Password:</label> <input type="password"
+							<label for="pwd">Password:</label>
+							<label  for="pwd"><i id="capsWarning" title="Capslock ativo" class="capsWarning bi bi-exclamation-triangle-fill"></i></label>							
+							<input type="password"
 								class="form-control" id="senha" placeholder="Digite sua senha:"
 								name="senha">
 						</div>
@@ -149,3 +186,10 @@
 
 </body>
 </html>
+
+<%
+	
+
+
+
+%>

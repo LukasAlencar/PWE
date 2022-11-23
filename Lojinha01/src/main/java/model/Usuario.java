@@ -3,6 +3,8 @@ package model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpSession;
+
 import database.DBQuery;
 import mail.SendMail;
 
@@ -21,9 +23,10 @@ public class Usuario {
 	private String 	telefone;
 	private String 	foto;
 	private String 	ativo;
+	private int 	ingresso;
 	
-	private String tableName	= "gu3025829.usuarios"; 
-	private String fieldsName	= "idUsuario, email, senha, idNivelUsuario, nome, cpf, endereco, bairro, cidade, uf, cep, telefone, foto, ativo";  
+	private String tableName	= "yourTableName"; 
+	private String fieldsName	= "idUsuario, email, senha, idNivelUsuario, nome, cpf, endereco, bairro, cidade, uf, cep, telefone, foto, ativo, idIngresso";  
 	private String fieldKey		= "idUsuario";
 	
 	private DBQuery dbQuery = new DBQuery(tableName, fieldsName, fieldKey);
@@ -49,6 +52,24 @@ public class Usuario {
 		this.setAtivo(ativo);
 	}
 	
+	public Usuario( int idUsuario, String email, int idNivelUsuario, String nome, String cpf, String endereco, String bairro, String cidade, String uf, String cep, String telefone, String foto, String ativo, int ingresso) {
+		this.setIdUsuario(idUsuario);
+		this.setEmail(email);
+		this.setSenha(senha);
+		this.setIdNivelUsuario(idNivelUsuario);
+		this.setNome(nome);
+		this.setCpf(cpf);
+		this.setEndereco(endereco);
+		this.setBairro(bairro);
+		this.setCidade(cidade);
+		this.setUf(uf);
+		this.setCep(cep);
+		this.setTelefone(telefone);
+		this.setFoto(foto);
+		this.setAtivo(ativo);
+		this.setIngresso(ingresso);
+	}
+	
 	public Usuario( String email, String senha, String nome) {
 		this.setIdUsuario(0);
 		this.setEmail(email);
@@ -57,9 +78,21 @@ public class Usuario {
 		this.setNome(nome);
 	}
 	
-	public Usuario( String email) {
-		this.setIdUsuario(0);
-		this.setEmail(email);
+	public Usuario(String id, String nome, String telefone, String senha, String foto) {
+		this.setIdUsuario(Integer.parseInt(id));
+		this.setNome(nome);
+		this.setTelefone(telefone);
+		this.setExistsSenha(senha);
+		this.setFoto(foto);
+	}
+	
+	public Usuario(int id, int ingresso) {
+		this.setIdUsuario(id);
+		this.setIngresso(ingresso);
+	}
+	
+	public Usuario( int id) {
+		this.setIdUsuario(id);
 	}
 	
 	public String toJson() {
@@ -79,6 +112,7 @@ public class Usuario {
 						"'telefone':'"+this.getTelefone()+"',\n\t"+
 						"'foto':'"+this.getFoto()+",'\n\t"+
 						"'ativo':'"+this.getAtivo()+"'\n\t"+
+						"'idIngresso':'"+this.getIngresso() + ""+"',\n\t"+
 				"}"
 		);
 	}	
@@ -98,7 +132,8 @@ public class Usuario {
 				this.getCep()+" | "+
 				this.getTelefone()+" | "+
 				this.getFoto()+" | "+
-				this.getAtivo()+" | "
+				this.getAtivo()+" | "+
+				this.getIngresso() + ""+" | "
 		);
 	}
 	
@@ -118,7 +153,38 @@ public class Usuario {
 				this.getCep(),
 				this.getTelefone(),
 				this.getFoto(),
-				this.getAtivo()
+				this.getAtivo(),
+				this.getIngresso() + ""
+		};
+		return(temp);
+	}
+	
+	private String[] toArray2() {
+		
+		String[] temp =  new String[] {
+				this.getIdUsuario() + "",
+				this.getSenha(),
+				this.getNome(),
+				this.getTelefone(),
+				this.getFoto()
+		};
+		return(temp);
+	}
+	
+	private String[] toArray4() {
+		
+		String[] temp =  new String[] {
+				this.getIdUsuario() + "",
+				this.getIngresso()  + ""
+		};
+		return(temp);
+	}
+	
+	
+private String[] toArray3() {
+		
+		String[] temp =  new String[] {
+				this.getIdUsuario() + "",
 		};
 		return(temp);
 	}
@@ -131,9 +197,25 @@ public class Usuario {
 		}
 	}
 	
-	public void delete() {
+	public void update() {
 		if( this.getIdUsuario() > 0 ) {
-			this.dbQuery.delete(this.toArray());
+			this.dbQuery.update(this.toArray2());
+		}else {
+			System.out.print("Deu erro no update");
+		}
+	}
+	
+	public void update2() {
+		if( this.getIdUsuario() > 0 ) {
+			this.dbQuery.update2(this.toArray4());
+		}else {
+			System.out.print("Deu erro no update");
+		}
+	}
+	
+	public void delete(int id) {
+		if( id > 0 ) {
+			this.dbQuery.delete(this.toArray3());
 		}
 	}
 	
@@ -147,6 +229,11 @@ public class Usuario {
 		return(resultset);
 	}
 	
+	public ResultSet selectTicket(int id) {
+		ResultSet resultset = this.dbQuery.selectTicket(id);
+		return(resultset);
+	}
+	
 	public ResultSet select( String where ) {
 		ResultSet resultset = this.dbQuery.select(where);
 		return(resultset);
@@ -156,8 +243,8 @@ public class Usuario {
 		
 		String smtpHost = "smtp.gmail.com"; 
 		String smtpPort = "587"; 
-		String username = "alencarkauan12@gmail.com";
-		String password = "";
+		String username = "yourEmail";
+		String password = "yourAppPassword";
 		String auth     = "TLS";  
 		
 		SendMail sendMail =  new SendMail( smtpHost,  smtpPort,  username,  password,  auth  );		
@@ -262,6 +349,7 @@ public class Usuario {
 				saida += "<td>" + rs.getString("telefone" ) +  "</td>";
 				saida += "<td>" + rs.getString("foto" ) +  "</td>";
 				saida += "<td>" + rs.getString("ativo" ) +  "</td>";
+				saida += "<td>" + rs.getString("idIngresso" ) +  "</td>";
 				saida += "</tr> <br>";
 			}
 	   } catch (SQLException e) {
@@ -291,6 +379,10 @@ public class Usuario {
 		this.senha = getRandomString();
 	}
 
+	public void setExistsSenha(String senha) {
+		this.senha = senha;
+	}
+	
 	public int getIdNivelUsuario() {
 		return idNivelUsuario;
 	}
@@ -382,6 +474,13 @@ public class Usuario {
 	public void setAtivo(String ativo) {
 		this.ativo = ativo;
 	}
-	
+
+	public int getIngresso() {
+		return ingresso;
+	}
+
+	public void setIngresso(int ingresso) {
+		this.ingresso = ingresso;
+	}
 
 }

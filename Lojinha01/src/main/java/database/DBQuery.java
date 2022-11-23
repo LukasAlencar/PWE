@@ -86,6 +86,13 @@ public class DBQuery {
 		return this.query(sql);
 	}
 	
+	public ResultSet selectTicket(int id) {
+		String sql = "SELECT idIngresso FROM usuarios\n";
+		sql += "WHERE id = '"+id+"'";
+		System.out.print(sql);
+		return this.query(sql);
+	}
+	
 	public int insert(String[] values) {
 		for (String value : values) {
 			System.out.println(value);
@@ -102,39 +109,53 @@ public class DBQuery {
 	}
 	
 	public int delete(String[] values) {
-		if (values.length != this.fieldsName.length){
-			System.out.println("\n A quantidade de campos � diferente da quantidade de valores!");
-			return ( 0 );
-		}
+
 		
 		String sql = "\nDELETE FROM "+this.tableName+" ";
 		if ( this.keyFieldIndex < 0 ){
 			return(0);
 		}
-		sql += "\n WHERE "+ this.fieldKey +" = '"+ values[this.keyFieldIndex] +"'";
+		sql += "\n WHERE "+ this.fieldKey +" = '"+ values[0] +"'";
 		System.out.print( sql );
 		return ( this.execute(sql) );
 	}
 	
 	public int update(String[] values) {
 		
-		if (values.length != this.fieldsName.length){
-			System.out.println("\n A quantidade de campos � diferente da quantidade de valores!");
-			return ( 0 );
-		}
+//		if (values.length != this.fieldsName.length){
+//			System.out.println("\n A quantidade de campos é diferente da quantidade de valores!");
+//			return ( 0 );
+//		}
 		
 		String sql = "\nUPDATE "+this.tableName+" SET ";
-		for( int i=0; i <  values.length; i++){
-			sql += "\n\t "+
-				this.fieldsName[i] + " = '"+values[i].trim()+"'" 
-				+  ((i == values.length-1) ? "" : ", ");
-		}
+		sql += "\nsenha = '"+values[1]+"', \n";
+		sql += "nome = '"+values[2]+"', \n";
+		sql += "telefone = '"+values[3]+"', \n";
+		sql += "foto = '"+values[4]+"'";
 		if ( this.keyFieldIndex < 0 ){
 			return(0);
 		}
 		sql += "\n WHERE "+ this.fieldKey +" = '"+ values[this.keyFieldIndex] +"'";
 		System.out.print( sql );
-		return ( this.execute(sql) );
+		return (this.execute(sql));
+	}
+	
+	
+public int update2(String[] values) {
+		
+//		if (values.length != this.fieldsName.length){
+//			System.out.println("\n A quantidade de campos é diferente da quantidade de valores!");
+//			return ( 0 );
+//		}
+		
+		String sql = "\nUPDATE "+this.tableName+" SET ";
+		sql += "\nidIngresso = '"+values[1]+"'\n";
+		if ( this.keyFieldIndex < 0 ){
+			return(0);
+		}
+		sql += "\n WHERE "+ this.fieldKey +" = '"+ values[this.keyFieldIndex] +"'";
+		System.out.print( sql );
+		return (this.execute(sql));
 	}
 
 	public String getTableName() {
