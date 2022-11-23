@@ -1,3 +1,5 @@
+> **Warning**:
+
 Instruções:
 
 Alterar nos arquivos todos os textos que comecem com "your" de acordo com a sua configuração:
