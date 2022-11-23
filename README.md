@@ -5,32 +5,33 @@ Alterar nos arquivos todos os textos que comecem com "your" de acordo com a sua 
 
 DBConnection.java
 
-29 this.setHost	("yourHost");
-30 this.setPort	("yourPort");
-31 this.setSchema("yourSchema");
-32 this.setUser	("yourUser");
-33 this.setPassword("yourPassword");
-
+29 this.setHost	("yourHost");<br/>
+30 this.setPort	("yourPort");<br/>
+31 this.setSchema("yourSchema");<br/>
+32 this.setUser	("yourUser");<br/>
+33 this.setPassword("yourPassword");<br/>
+<br/><br/>
 _______________________________________________________________________________________________
+<br/>
+Usuario.java<br/>
 
-Usuario.java
-
-28      private String tableName	= "yourTable"; 
-246 		String username = "yourEmail";
-247 	 	String password = "yourAppPassword";
-
-
-________________________________________________________________________________________________
-
-respondedorCadastro.jsp
-
-57 String caminho = "yourRoute"+filename ;
-75 usuario.enviarEmailComSenha("yourEmail", email, corpoEmail, corpoEmail);
-
+28      private String tableName	= "yourTable";<br/> 
+246 		String username = "yourEmail";<br/>
+247 	 	String password = "yourAppPassword";<br/>
+<br/><br/>
 
 ________________________________________________________________________________________________
+<br/>
+respondedorCadastro.jsp<br/>
 
+57 String caminho = "yourRoute"+filename ;<br/>
+75 usuario.enviarEmailComSenha("yourEmail", email, corpoEmail, corpoEmail);<br/>
+<br/><br/>
 
-upload.srv.jsp
+________________________________________________________________________________________________
+<br/>
+
+upload.srv.jsp<br/>
 
 18 String caminho = "yourRoute"+filename ;
+<br/>
